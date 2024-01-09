@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RC Car Control</title>
+    <style>
+        .button {
+            width: 100px;
+            height: 50px;
+            font-size: 18px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>RC Car Control</h1>
+    <!--make a function when button is pressed down, send a request to the server and if button is released, send another request to stop the car
+    -->
+    <div>
+        <button class="button" onmousedown="sendRequest('/forward')" onmouseup="sendRequest('/stop')">Forward</button>
+    </div>
+    <div>
+        <button class="button" onmousedown="sendRequest('/backward')" onmouseup="sendRequest('/stop')">Backward</button>
+    </div>
+    <div>
+        <button class="button" onmousedown="sendRequest('/left')" onmouseup="sendRequest('/stop')">Left</button>
+        <button class="button" onmousedown="sendRequest('/right')" onmouseup="sendRequest('/stop')">Right</button>
+    </div>
+    <div>
+        <button class="button" onmousedown="sendRequest('/gear1')">Gear 1</button>
+        <button class="button" onmousedown="sendRequest('/gear2')">Gear 2</button>
+        <button class="button" onmousedown="sendRequest('/gear3')">Gear 3</button>
+        <button class="button" onmousedown="sendRequest('/gear4')">Gear 4</button>
+    </div>
+    <div>
+        <button class="button" onmousedown="sendRequest('/stop')">Stop</button>
+    </div>
+
+    <script>
+        function sendRequest(command) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://192.168.18.66" + command, true);
+            //if button is released, stop the car
+            xhr.onmouseup = function() {
+                var xhr2 = new XMLHttpRequest();
+                xhr2.open("GET", "http://192.168.18.66/stop", true);
+                xhr.send();
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+
+
+
+</html>
